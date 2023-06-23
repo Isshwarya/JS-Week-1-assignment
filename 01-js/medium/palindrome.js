@@ -7,7 +7,14 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  lowerCaseStr = str.toLowerCase();
+  lowerCaseStr = lowerCaseStr.replace(/[^\w\d]/g, "");
+  reversedStr = lowerCaseStr.split("").reverse().join("");
+  //reversedStr = reverse(originalString);
+  return lowerCaseStr == reversedStr;
 }
 
 module.exports = isPalindrome;
+
+console.log(isPalindrome("tamat"));
+console.log(isPalindrome("race car"));

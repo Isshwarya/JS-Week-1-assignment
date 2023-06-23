@@ -17,6 +17,78 @@
   - `npm run test-calculator`
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.clear();
+    this.operationsMap = {
+      "+": "add",
+      "-": "subtract",
+      "*": "multiply",
+      "/": "divide",
+    };
+  }
+  add(input) {
+    this.result += input;
+  }
+  subtract(input) {
+    this.result -= input;
+  }
+  multiply(input) {
+    this.result *= input;
+  }
+  divide(input) {
+    let res = this.result / input;
+    if (!isFinite(res)) {
+      throw new Error(`Evaluated to ${res}`);
+    }
+    this.result = res;
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+  calculate2(expression) {
+    let stack = new Array();
+    expression = expression.replace(/([\(\)])/g, ` $1 `);
+    expression.split(/\s+/).forEach((element) => {
+      if (element == ")") {
+        // perform the operation
+        let ele2 = stack.pop();
+        let operation = stack.pop();
+        let ele1 = stack.pop();
+        stack.pop(); // to pop opening brace
+        let evaluation = ele1 + operation + ele2;
+        let result = eval(evaluation);
+        if (!isFinite(result)) {
+          throw new Error(`${expression} evaluated to ${result}`);
+        }
+        stack.push(result);
+      } else {
+        stack.push(element);
+      }
+    });
+    if (stack.length) {
+      // To handle final remains in stack
+      stack.push(eval(stack.join(" ")));
+    }
+    return stack.pop();
+  }
+  calculate(expression) {
+    console.log(expression);
+    let result = eval(expression);
+    console.log(`evaluated to ${result}`);
+    if (!isFinite(result)) {
+      throw new Error(`${expression} evaluated to ${result}`);
+    }
+    this.result = result;
+    return result;
+  }
+}
 
 module.exports = Calculator;
+
+console.log(
+  new Calculator().calculate2(`10 +  ( 2 *    (   (6 - (4 + 1)) / 2)) + 7`)
+);

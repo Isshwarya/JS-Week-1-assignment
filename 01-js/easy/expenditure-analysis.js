@@ -9,7 +9,48 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let report = {};
+  transactions.forEach((transaction) => {
+    if (!(transaction.category in report)) {
+      report[transaction.category] = 0;
+    }
+    report[transaction.category] += transaction.price;
+  });
+  let ans = [];
+  for (const [key, value] of Object.entries(report)) {
+    ans.push({ category: key, totalSpent: value });
+  }
+  //Object.keys(report).forEach(function(key) {...})
+  //for (var key in report){...}
+  return ans;
 }
 
 module.exports = calculateTotalSpentByCategory;
+
+const transactions = [
+  {
+    id: 1,
+    timestamp: 1656076800000,
+    price: 10,
+    category: "Food",
+    itemName: "Pizza",
+  },
+  {
+    id: 2,
+    timestamp: 1656076800000,
+    price: 20,
+    category: "Park",
+    itemName: "parking",
+  },
+  {
+    id: 3,
+    timestamp: 1656076800000,
+    price: 20,
+    category: "Park",
+    itemName: "Food",
+  },
+];
+
+console.log(
+  JSON.stringify(calculateTotalSpentByCategory(transactions), null, "\t")
+);

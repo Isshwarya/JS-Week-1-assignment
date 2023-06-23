@@ -8,7 +8,15 @@
 */
 
 function isAnagram(str1, str2) {
+  // str1Arr = [...str1];
+  // str1Arr = Array.from(str1);
+  // str1Arr = Object.assign([], str1);
+  str1 = str1.toLowerCase();
+  str2 = str2.toLowerCase();
 
+  str1Sorted = str1.split("").sort().join("");
+  str2Sorted = str2.split("").sort().join("");
+  return str1Sorted == str2Sorted;
 }
 
 module.exports = isAnagram;
